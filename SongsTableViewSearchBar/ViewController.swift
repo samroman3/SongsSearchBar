@@ -13,6 +13,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     //MARK: - Outlets
     let songs = Song.loveSongs
     
+//    var songSearchResults: [Song] {
+//        get {
+//            guard let searchString = searchString else {
+//                return songs
+//            }
+//            guard searchString != "" else {
+//                return songs
+//            }
+//            return songs.filter{$0.name.contains(searchString) || $0.artist.contains(searchString)}
+//        }
+//    }
     var songSearchResults: [Song] {
         get {
             guard let searchString = searchString else {
@@ -21,9 +32,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             guard searchString != "" else {
                 return songs
             }
-            return songs.filter{$0.name.contains(searchString) || $0.artist.contains(searchString)}
+            let scopeArrTitles = searchBarOut.scopeButtonTitles
+            let currentIndex = searchBarOut.selectedScopeButtonIndex
+            let selectedStr = scopeArrTitles![currentIndex]
+            switch selectedStr {
+            case "Song":
+                return songs.filter{$0.name.contains(searchString)}
+            case "Artist":
+                return songs.filter{$0.artist.contains(searchString)}
+            default:
+                return songs
+            }
         }
     }
+
     
     var searchString: String? = nil {
         didSet {
@@ -76,6 +98,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         tableViewOut.delegate = self
         tableViewOut.dataSource = self
+        searchBarOut.delegate = self
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
@@ -92,7 +115,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 extension ViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        self.searchString = searchBar.text?.lowercased()
+        self.searchString = searchBar.text
     }
     
     
