@@ -11,6 +11,10 @@ import UIKit
 class DetailViewController: UIViewController {
 
     
+    var detailSongs: Song!
+    
+    
+    
     @IBOutlet weak var imageOut: UIImageView!
     
     @IBOutlet weak var songName: UILabel!
@@ -19,6 +23,9 @@ class DetailViewController: UIViewController {
     
     
     override func viewDidLoad() {
+        imageOut.image = UIImage(named: "loveSongs")
+        songName.text = detailSongs.name
+        artistName.text = detailSongs.artist
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
